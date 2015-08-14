@@ -26,8 +26,21 @@ namespace Changetxt
                 byte[] bytes = new byte[fs.Length];
                 fs.Read(bytes, 0, bytes.Length);
                 string fileString = System.Text.Encoding.UTF8.GetString(bytes);
-                string outString = Regex.Replace(fileString, "cameraMinZoom=.*", "cameraMinZoom=" + textBoxMin.Text.ToString(), RegexOptions.IgnoreCase);
-                outString = Regex.Replace(outString, "cameraMaxZoom=.*", "cameraMaxZoom=" + textBoxMax.Text.ToString(), RegexOptions.IgnoreCase);
+                string outString;
+                if (checkBox1.Checked)
+                {
+                    outString = Regex.Replace(fileString, "cameraMinZoom=.*", "cameraMinZoom=" + textBoxMin.Text.ToString(), RegexOptions.IgnoreCase);
+                    outString = Regex.Replace(outString, "cameraMaxZoom=.*", "cameraMaxZoom=" + textBoxMax.Text.ToString(), RegexOptions.IgnoreCase);
+                }
+                else
+                {
+                    outString = fileString;
+                }
+                if (checkBox2.Checked)
+                {
+                    outString = Regex.Replace(outString, "resolution.min.width=\\d+", "resolution.min.width=" + textBoxX.Text.ToString(), RegexOptions.IgnoreCase);
+                    outString = Regex.Replace(outString, "resolution.min.height=\\d+", "resolution.min.height=" + textBoxY.Text.ToString(), RegexOptions.IgnoreCase);
+                }
                 fs.Close();
                 //写入
                 StreamWriter sw = new StreamWriter(path);
@@ -53,7 +66,7 @@ namespace Changetxt
         private void Form1_Load(object sender, EventArgs e)
         {
             path = Environment.CurrentDirectory;
-            path += "\\games\\config.properties";
+            path += "\\game\\config.properties";
         }
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -66,7 +79,7 @@ namespace Changetxt
 
         private void button3_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("使用说明：文件放至游戏根目录（拖一个快捷方式到桌面）\n\r打开登录器更新完成后点击修改。\n\r软件由烤肉肉制作。\n\r欢迎加入泡泡飞舞公会。（五卡玛一条）\n\rv1.0.0.0");
+            MessageBox.Show("使用说明：文件放至游戏根目录（拖一个快捷方式到桌面）\n\r打开登录器更新完成后点击修改。\n\r软件由烤肉肉制作。\n\r欢迎加入泡泡飞舞公会。（五卡玛一条）");
         }
 
     }
