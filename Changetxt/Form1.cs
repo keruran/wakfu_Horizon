@@ -12,6 +12,59 @@ namespace Changetxt
 {
     public partial class Form1 : Form
     {
+
+        #region
+        //创建NotifyIcon对象 
+        NotifyIcon notifyicon = new NotifyIcon();
+        //创建托盘图标对象 
+      //  Icon ico = new Icon("bbq.ico");
+        //创建托盘菜单对象 
+        ContextMenu notifyContextMenu = new ContextMenu();
+        #endregion
+
+
+
+
+        #region 隐藏任务栏图标、显示托盘图标
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            //判断是否选择的是最小化按钮 
+            if (WindowState == FormWindowState.Minimized)
+            {
+                //托盘显示图标等于托盘图标对象 
+                //注意notifyIcon1是控件的名字而不是对象的名字 
+             //   notifyIcon1.Icon = ico;
+                //隐藏任务栏区图标 
+                this.ShowInTaskbar = false;
+                //图标显示在托盘区 
+                notifyicon.Visible = true;
+            }
+        }
+        #endregion
+
+        #region 还原窗体
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            //判断是否已经最小化于托盘 
+            if (WindowState == FormWindowState.Minimized)
+            {
+                //还原窗体显示 
+                WindowState = FormWindowState.Normal;
+                //激活窗体并给予它焦点 
+                this.Activate();
+                //任务栏区显示图标 
+                this.ShowInTaskbar = true;
+                //托盘区图标隐藏 
+                notifyicon.Visible = false;
+            }
+        }
+        #endregion
+
+
+
+
+
+
         public string path;
         public Form1()
         {
@@ -19,7 +72,10 @@ namespace Changetxt
         }
         private void button2_Click(object sender, EventArgs e)
         {
+
+
             if (File.Exists(path))
+
             {
                 //打开
                 FileStream fs = new FileStream(path, FileMode.Open);
@@ -52,6 +108,7 @@ namespace Changetxt
                 swbak.Close();
                 button1.Visible = true;
                 button2.Visible = false;
+
             }
             else
                 MessageBox.Show("请放至游戏根目录。");
@@ -65,6 +122,7 @@ namespace Changetxt
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.notifyIcon1.Text = "沃土视距修改";
             path = Environment.CurrentDirectory;
             path += "\\game\\config.properties";
         }

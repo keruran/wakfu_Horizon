@@ -7,3 +7,12 @@ D:\Documents and Settings\krran\My Documents\Visual Studio 2013\Projects\Changet
 D:\Documents and Settings\krran\My Documents\Visual Studio 2013\Projects\Changetxt\Changetxt\obj\Debug\Changetxt.csproj.GenerateResource.Cache
 D:\Documents and Settings\krran\My Documents\Visual Studio 2013\Projects\Changetxt\Changetxt\obj\Debug\Changetxt.exe
 D:\Documents and Settings\krran\My Documents\Visual Studio 2013\Projects\Changetxt\Changetxt\obj\Debug\Changetxt.pdb
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\bin\Debug\Changetxt.exe.config
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\obj\Debug\Changetxt.exe
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\obj\Debug\Changetxt.pdb
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\bin\Debug\Changetxt.exe
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\bin\Debug\Changetxt.pdb
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\obj\Debug\Changetxt.csprojResolveAssemblyReference.cache
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\obj\Debug\Changetxt.Form1.resources
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\obj\Debug\Changetxt.Properties.Resources.resources
+C:\Users\rr\Documents\Visual Studio 2013\Projects\wakfu_Horizon\Changetxt\obj\Debug\Changetxt.csproj.GenerateResource.Cache
