@@ -7,12 +7,15 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
-
+using System.Diagnostics;
+using System.Threading;
+using System.Runtime.InteropServices;
 namespace Changetxt
 {
     public partial class Form1 : Form
     {
-
+        //调用大漠
+        CDmSoft dm = new CDmSoft();
         #region
         //创建NotifyIcon对象 
         NotifyIcon notifyicon = new NotifyIcon();
@@ -21,10 +24,6 @@ namespace Changetxt
         //创建托盘菜单对象 
         ContextMenu notifyContextMenu = new ContextMenu();
         #endregion
-
-
-
-
         #region 隐藏任务栏图标、显示托盘图标
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
@@ -41,7 +40,6 @@ namespace Changetxt
             }
         }
         #endregion
-
         #region 还原窗体
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
@@ -60,71 +58,164 @@ namespace Changetxt
         }
         #endregion
 
-
-
-
-
-
-        public string path;
+        public string pathshijv, pathlang, pathstart;
         public Form1()
         {
             InitializeComponent();
         }
-        private void button2_Click(object sender, EventArgs e)
+        //延时方法
+        [DllImport("kernel32.dll")]
+        static extern uint GetTickCount();
+        static void Delay(uint ms)
         {
-
-
-            if (File.Exists(path))
-
+            uint start = GetTickCount();
+            while (GetTickCount() - start < ms)
             {
-                //打开
-                FileStream fs = new FileStream(path, FileMode.Open);
-                byte[] bytes = new byte[fs.Length];
-                fs.Read(bytes, 0, bytes.Length);
-                string fileString = System.Text.Encoding.UTF8.GetString(bytes);
-                string outString;
-                if (checkBox1.Checked)
+                Application.DoEvents();
+            }
+        }
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {//替换语言，启动启动器，还原语言，替换分辨率，启动游戏，关闭游戏，还原分辨率
+            #region 修改语言
+            if (checkBox3.Checked)
+            {
+                if (File.Exists(pathlang))
                 {
-                    outString = Regex.Replace(fileString, "cameraMinZoom=.*", "cameraMinZoom=" + textBoxMin.Text.ToString(), RegexOptions.IgnoreCase);
-                    outString = Regex.Replace(outString, "cameraMaxZoom=.*", "cameraMaxZoom=" + textBoxMax.Text.ToString(), RegexOptions.IgnoreCase);
+                    //打开
+                    FileStream fs1 = new FileStream(pathlang, FileMode.Open);
+                    byte[] bytes1 = new byte[fs1.Length];
+                    fs1.Read(bytes1, 0, bytes1.Length);
+                    string fileString = System.Text.Encoding.UTF8.GetString(bytes1);
+                    string outString;
+
+                    outString = Regex.Replace(fileString, "\"fr\", .{4}", "\"fr\", \"zh\"");
+
+                    fs1.Close();
+                    //写入
+                    StreamWriter sw1 = new StreamWriter(pathlang);
+                    sw1.Write(outString);
+                    sw1.Close();
+                    //备个份
+                    StreamWriter swbak1 = new StreamWriter(pathlang + ".bak");
+                    swbak1.Write(fileString);
+                    swbak1.Close();
+                    button1.Visible = true;
+                    button2.Visible = false;
+                    notifyIcon1.ShowBalloonTip(1, "提示信息", "丫的汉化好了。",ToolTipIcon.Info);
                 }
                 else
-                {
-                    outString = fileString;
-                }
-                if (checkBox2.Checked)
-                {
-                    outString = Regex.Replace(outString, "resolution.min.width=\\d+", "resolution.min.width=" + textBoxX.Text.ToString(), RegexOptions.IgnoreCase);
-                    outString = Regex.Replace(outString, "resolution.min.height=\\d+", "resolution.min.height=" + textBoxY.Text.ToString(), RegexOptions.IgnoreCase);
-                }
-                fs.Close();
-                //写入
-                StreamWriter sw = new StreamWriter(path);
-                sw.Write(outString);
-                sw.Close();
-                //备个份
-                StreamWriter swbak = new StreamWriter(path + ".bak");
-                swbak.Write(fileString);
-                swbak.Close();
-                button1.Visible = true;
-                button2.Visible = false;
-
+                    MessageBox.Show("未找到wakfu.ini");
             }
-            else
-                MessageBox.Show("请放至游戏根目录。");
+            #endregion
+            #region 启动游戏
+            try
+            {
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = pathstart;
+                info.Arguments = "";
+                info.WindowStyle = ProcessWindowStyle.Normal;
+                Process pro = Process.Start(info);
+                pro.WaitForExit();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);//显示异常信息
+            }
+            #endregion
+            //发现并没什么卵用
+            //Delay(500);
+            //#region 还原语言
+            //if (File.Exists(pathlang + ".bak"))
+            //{
+            //    File.Delete(pathlang);
+            //    System.IO.File.Move(pathlang + ".bak", pathlang);
+            //}
+            //#endregion
+            //加入识别图像 更新完成后继续执行
+            object intX, intY;
+            int x, y;
+            do
+            {
+                Delay(500);
+                int dm_ret = dm.FindPic(0, 0, 2000, 2000, "start.bmp", "000000", 0.9, 0, out intX, out intY);
+                x = Convert.ToInt32(intX); y = Convert.ToInt32(intY);
+            } while (x < 0 | y < 0);
+            #region  修改视距
+            if (checkBox1.Checked | checkBox2.Checked)
+            {
+                if (File.Exists(pathshijv))
+                {
+                    //打开
+                    FileStream fs = new FileStream(pathshijv, FileMode.Open);
+                    byte[] bytes = new byte[fs.Length];
+                    fs.Read(bytes, 0, bytes.Length);
+                    string fileString = System.Text.Encoding.UTF8.GetString(bytes);
+                    string outString;
+                    if (checkBox1.Checked)
+                    {
+                        outString = Regex.Replace(fileString, "cameraMinZoom=.*", "cameraMinZoom=" + textBoxMin.Text.ToString(), RegexOptions.IgnoreCase);
+                        outString = Regex.Replace(outString, "cameraMaxZoom=.*", "cameraMaxZoom=" + textBoxMax.Text.ToString(), RegexOptions.IgnoreCase);
+                    }
+                    else
+                    {
+                        outString = fileString;
+                    }
+                    if (checkBox2.Checked)
+                    {
+                        outString = Regex.Replace(outString, "resolution.min.width=\\d+", "resolution.min.width=" + textBoxX.Text.ToString(), RegexOptions.IgnoreCase);
+                        outString = Regex.Replace(outString, "resolution.min.height=\\d+", "resolution.min.height=" + textBoxY.Text.ToString(), RegexOptions.IgnoreCase);
+                    }
+                    fs.Close();
+                    //写入
+                    StreamWriter sw = new StreamWriter(pathshijv);
+                    sw.Write(outString);
+                    sw.Close();
+                    if (checkBox1.Checked | checkBox2.Checked)
+                    {
+                        //备个份
+                        StreamWriter swbak = new StreamWriter(pathshijv + ".bak");
+                        swbak.Write(fileString);
+                        swbak.Close();
+                        button1.Visible = true;
+                        button2.Visible = false;
+                        notifyIcon1.ShowBalloonTip(1, "提示信息", "丫的视距也改完了。", ToolTipIcon.Info);
+                    }
+                }
+                else
+                    MessageBox.Show("未找到config.properties");
+            }
+            #endregion
+            dm.MoveTo(x, y);
+            dm.LeftClick();
+          
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            File.Delete(path);
-            System.IO.File.Move(path + ".bak", path);
+            //还原分辨率
+            if (File.Exists(pathshijv + ".bak"))
+            {
+                File.Delete(pathshijv);
+                System.IO.File.Move(pathshijv + ".bak", pathshijv);
+            }
+            //还原语言
+            if (File.Exists(pathlang + ".bak"))
+            {
+                File.Delete(pathlang);
+                System.IO.File.Move(pathlang + ".bak", pathlang);
+            }
             button1.Visible = false;
             button2.Visible = true;
+            notifyIcon1.ShowBalloonTip(0, "提示信息", "丫的都还原了。", ToolTipIcon.Info);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            pathshijv = Environment.CurrentDirectory;
+            pathlang = pathshijv + "\\game\\wakfu.ici";
+            pathstart = pathshijv + "\\wakfu.exe";
+            pathshijv += "\\game\\config.properties";
             this.notifyIcon1.Text = "沃土视距修改";
-            path = Environment.CurrentDirectory;
-            path += "\\game\\config.properties";
         }
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -137,8 +228,10 @@ namespace Changetxt
 
         private void button3_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("使用说明：文件放至游戏根目录（拖一个快捷方式到桌面）\n\r打开登录器更新完成后点击修改。\n\r软件由烤肉肉制作。\n\r欢迎加入泡泡飞舞公会。（五卡玛一条）");
+            MessageBox.Show("使用说明：文件放至游戏根目录\n\r烤肉肉制作。");
         }
+
+
 
     }
 }
