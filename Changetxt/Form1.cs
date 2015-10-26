@@ -15,7 +15,7 @@ namespace Changetxt
     public partial class Form1 : Form
     {
         //调用大漠
-        CDmSoft dm = new CDmSoft();
+        //CDmSoft dm = new CDmSoft();
         #region
         //创建NotifyIcon对象 
         NotifyIcon notifyicon = new NotifyIcon();
@@ -51,7 +51,7 @@ namespace Changetxt
                 //激活窗体并给予它焦点 
                 this.Activate();
                 //任务栏区显示图标 
-                this.ShowInTaskbar = true;
+               // this.ShowInTaskbar = true;
                 //托盘区图标隐藏 
                 notifyicon.Visible = false;
             }
@@ -77,10 +77,8 @@ namespace Changetxt
 
 
         private void button2_Click(object sender, EventArgs e)
-        {//替换语言，启动启动器，还原语言，替换分辨率，启动游戏，关闭游戏，还原分辨率
+        {
             #region 修改语言
-            if (checkBox3.Checked)
-            {
                 if (File.Exists(pathlang))
                 {
                     //打开
@@ -89,9 +87,7 @@ namespace Changetxt
                     fs1.Read(bytes1, 0, bytes1.Length);
                     string fileString = System.Text.Encoding.UTF8.GetString(bytes1);
                     string outString;
-
                     outString = Regex.Replace(fileString, "\"fr\", .{4}", "\"fr\", \"zh\"");
-
                     fs1.Close();
                     //写入
                     StreamWriter sw1 = new StreamWriter(pathlang);
@@ -101,14 +97,47 @@ namespace Changetxt
                     StreamWriter swbak1 = new StreamWriter(pathlang + ".bak");
                     swbak1.Write(fileString);
                     swbak1.Close();
-                    button1.Visible = true;
-                    button2.Visible = false;
-                    notifyIcon1.ShowBalloonTip(1, "提示信息", "丫的汉化好了。",ToolTipIcon.Info);
+                    notifyIcon1.ShowBalloonTip(1, "提示信息", "汉化成功。",ToolTipIcon.Info);
                 }
                 else
                     MessageBox.Show("未找到wakfu.ini");
-            }
             #endregion
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //还原分辨率
+            if (File.Exists(pathshijv + ".bak"))
+            {
+                File.Delete(pathshijv);
+                System.IO.File.Move(pathshijv + ".bak", pathshijv);
+            }
+            //还原语言
+            if (File.Exists(pathlang + ".bak"))
+            {
+                File.Delete(pathlang);
+                System.IO.File.Move(pathlang + ".bak", pathlang);
+            }
+            notifyIcon1.ShowBalloonTip(0, "提示信息", "还原成功。", ToolTipIcon.Info);
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            pathshijv = Environment.CurrentDirectory;
+            pathlang = pathshijv + "\\game\\wakfu.ici";
+            pathstart = pathshijv + "\\wakfu.exe";
+            pathshijv += "\\game\\config.properties";
+            this.notifyIcon1.Text = "沃土视距+汉化";
+        }
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //如果输入的不是数字键,Backspace键,"."则取消该输入
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8 && e.KeyChar != (char)46)
+            {
+                e.Handled = true;
+            }
+        }
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            //启动
             #region 启动游戏
             try
             {
@@ -124,24 +153,18 @@ namespace Changetxt
                 MessageBox.Show(ex.Message);//显示异常信息
             }
             #endregion
-            //发现并没什么卵用
-            //Delay(500);
-            //#region 还原语言
-            //if (File.Exists(pathlang + ".bak"))
-            //{
-            //    File.Delete(pathlang);
-            //    System.IO.File.Move(pathlang + ".bak", pathlang);
-            //}
-            //#endregion
-            //加入识别图像 更新完成后继续执行
-            object intX, intY;
-            int x, y;
-            do
+            Delay(500);
+            #region 还原语言
+            if (File.Exists(pathlang + ".bak"))
             {
-                Delay(500);
-                int dm_ret = dm.FindPic(0, 0, 2000, 2000, "start.bmp", "000000", 0.9, 0, out intX, out intY);
-                x = Convert.ToInt32(intX); y = Convert.ToInt32(intY);
-            } while (x < 0 | y < 0);
+                File.Delete(pathlang);
+                System.IO.File.Move(pathlang + ".bak", pathlang);
+            }
+            #endregion
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
             #region  修改视距
             if (checkBox1.Checked | checkBox2.Checked)
             {
@@ -178,58 +201,17 @@ namespace Changetxt
                         StreamWriter swbak = new StreamWriter(pathshijv + ".bak");
                         swbak.Write(fileString);
                         swbak.Close();
-                        button1.Visible = true;
-                        button2.Visible = false;
-                        notifyIcon1.ShowBalloonTip(1, "提示信息", "丫的视距也改完了。", ToolTipIcon.Info);
+
+                        notifyIcon1.ShowBalloonTip(1, "提示信息", "视距修改成功。", ToolTipIcon.Info);
                     }
                 }
                 else
                     MessageBox.Show("未找到config.properties");
             }
             #endregion
-            dm.MoveTo(x, y);
-            dm.LeftClick();
-          
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //还原分辨率
-            if (File.Exists(pathshijv + ".bak"))
-            {
-                File.Delete(pathshijv);
-                System.IO.File.Move(pathshijv + ".bak", pathshijv);
-            }
-            //还原语言
-            if (File.Exists(pathlang + ".bak"))
-            {
-                File.Delete(pathlang);
-                System.IO.File.Move(pathlang + ".bak", pathlang);
-            }
-            button1.Visible = false;
-            button2.Visible = true;
-            notifyIcon1.ShowBalloonTip(0, "提示信息", "丫的都还原了。", ToolTipIcon.Info);
-        }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            pathshijv = Environment.CurrentDirectory;
-            pathlang = pathshijv + "\\game\\wakfu.ici";
-            pathstart = pathshijv + "\\wakfu.exe";
-            pathshijv += "\\game\\config.properties";
-            this.notifyIcon1.Text = "沃土视距修改";
-        }
-        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //如果输入的不是数字键,Backspace键,"."则取消该输入
-            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8 && e.KeyChar != (char)46)
-            {
-                e.Handled = true;
-            }
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("使用说明：文件放至游戏根目录\n\r烤肉肉制作。");
-        }
+
 
 
 
