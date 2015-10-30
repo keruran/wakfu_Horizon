@@ -51,7 +51,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(2, 50);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(37, 23);
             this.button2.TabIndex = 2;
@@ -72,7 +72,7 @@
             // textBoxMax
             // 
             this.textBoxMax.Location = new System.Drawing.Point(104, 4);
-            this.textBoxMax.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxMax.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxMax.Name = "textBoxMax";
             this.textBoxMax.Size = new System.Drawing.Size(45, 21);
             this.textBoxMax.TabIndex = 4;
@@ -92,7 +92,7 @@
             // textBoxMin
             // 
             this.textBoxMin.Location = new System.Drawing.Point(185, 4);
-            this.textBoxMin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxMin.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxMin.Name = "textBoxMin";
             this.textBoxMin.Size = new System.Drawing.Size(45, 21);
             this.textBoxMin.TabIndex = 4;
@@ -102,7 +102,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(150, 50);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(37, 23);
             this.button1.TabIndex = 7;
@@ -133,7 +133,7 @@
             // textBoxX
             // 
             this.textBoxX.Location = new System.Drawing.Point(104, 26);
-            this.textBoxX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxX.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxX.Name = "textBoxX";
             this.textBoxX.Size = new System.Drawing.Size(45, 21);
             this.textBoxX.TabIndex = 4;
@@ -143,7 +143,7 @@
             // textBoxY
             // 
             this.textBoxY.Location = new System.Drawing.Point(185, 26);
-            this.textBoxY.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxY.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxY.Name = "textBoxY";
             this.textBoxY.Size = new System.Drawing.Size(45, 21);
             this.textBoxY.TabIndex = 4;
@@ -156,7 +156,7 @@
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(6, 6);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(60, 16);
             this.checkBox1.TabIndex = 10;
@@ -169,7 +169,7 @@
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.Location = new System.Drawing.Point(6, 30);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(72, 16);
             this.checkBox2.TabIndex = 10;
@@ -180,12 +180,13 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(200, 56);
+            this.label3.Location = new System.Drawing.Point(201, 56);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 11);
             this.label3.TabIndex = 11;
-            this.label3.Text = "v1.4";
+            this.label3.Text = "help";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // notifyIcon1
             // 
@@ -197,7 +198,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(52, 50);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(37, 23);
             this.button3.TabIndex = 12;
@@ -208,7 +209,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(101, 50);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(37, 23);
             this.button4.TabIndex = 13;
@@ -238,12 +239,12 @@
             this.Controls.Add(this.button2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "视距修改 by烤肉肉";
+            this.Text = "汉化+视距";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.ResumeLayout(false);

@@ -97,10 +97,10 @@ namespace Changetxt
                     StreamWriter swbak1 = new StreamWriter(pathlang + ".bak");
                     swbak1.Write(fileString);
                     swbak1.Close();
-                    notifyIcon1.ShowBalloonTip(1, "提示信息", "汉化成功。",ToolTipIcon.Info);
+                    notifyIcon1.ShowBalloonTip(1, "", "汉化成功。",ToolTipIcon.Info);
                 }
                 else
-                    MessageBox.Show("未找到wakfu.ini");
+                notifyIcon1.ShowBalloonTip(0, "", "未找到wakfu.ini", ToolTipIcon.Info);
             #endregion
         }
         private void button1_Click(object sender, EventArgs e)
@@ -117,7 +117,7 @@ namespace Changetxt
                 File.Delete(pathlang);
                 System.IO.File.Move(pathlang + ".bak", pathlang);
             }
-            notifyIcon1.ShowBalloonTip(0, "提示信息", "还原成功。", ToolTipIcon.Info);
+            notifyIcon1.ShowBalloonTip(0, "", "还原成功。", ToolTipIcon.Info);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -150,7 +150,7 @@ namespace Changetxt
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);//显示异常信息
+                notifyIcon1.ShowBalloonTip(1, "", ex.Message, ToolTipIcon.Info);
             }
             #endregion
             Delay(500);
@@ -202,13 +202,19 @@ namespace Changetxt
                         swbak.Write(fileString);
                         swbak.Close();
 
-                        notifyIcon1.ShowBalloonTip(1, "提示信息", "视距修改成功。", ToolTipIcon.Info);
+                        notifyIcon1.ShowBalloonTip(1, "", "视距修改成功。", ToolTipIcon.Info);
                     }
                 }
                 else
-                    MessageBox.Show("未找到config.properties");
+                    notifyIcon1.ShowBalloonTip(1, "", "未找到config.properties", ToolTipIcon.Info);
             }
             #endregion
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("放游戏根目录，从左到右依次点过来。\rby烤肉肉\rv1.4.1");
+
         }
 
 
